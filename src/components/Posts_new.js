@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-class PostsNew extends Component {
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { createPost } from '../actions';
+
+class Posts_new extends Component {
     renderField(field) {
+        const { meta: { touched, error } } = field;
+        const className = `form-group ${touched && error ? 'has-danger' : ''}`;
         return (
-            <div className="form-group has-danger">
+            <div className={className}>
                 <label>{field.lable}</label>
                 <input
                     className="form-control"
                     type="text"
                     {...field.input}
                 />
-                <div className = "text-help">
-                {field.meta.touched ? field.meta.error: ''}
+                <div className="text-help">
+                    {touched ? error : ''}
                 </div>
+
             </div>
         );
     }
@@ -20,13 +27,13 @@ class PostsNew extends Component {
     onSubmit(values) {
         console.log(values);
     }
-    
+
 
     render() {
-        const { handleSubmit }  = this.props;
+        const { handleSubmit } = this.props;
 
         return (
-            <form onSubmit = {handleSubmit(this.onSubmit.bind(this))} >
+            <form onSubmit={handleSubmit(this.onSubmit.bind(this))} >
                 <Field
                     lable="Title For Post"
                     name="title"
@@ -43,10 +50,11 @@ class PostsNew extends Component {
                     component={this.renderField}
                 />
                 <button type="submit" className="btn btn-primary">Submit</button>
+                <Link className="btn btn-danger" to="/">Cancel</Link>
             </form>
         );
     }
-} 
+}
 
 function validate(values) {
     const errors = {};
@@ -69,4 +77,6 @@ function validate(values) {
 export default reduxForm({
     validate,
     form: 'PostsNewForm555'
-})(PostsNew);
+})(
+    connect(null, { createPost })(Posts_new)
+);
