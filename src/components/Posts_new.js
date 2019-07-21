@@ -25,7 +25,7 @@ class Posts_new extends Component {
     }
 
     onSubmit(values) {
-        console.log(values);
+        this.props.createPost(values);
     }
 
 
