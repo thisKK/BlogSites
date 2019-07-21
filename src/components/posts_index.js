@@ -8,12 +8,11 @@ class PostsIndex extends Component {
     componentDidMount() {
         this.props.fetchPosts();
     }
-    renderPosts() {
+
+    renderPosts(){
         return _.map(this.props.posts, post => {
             return (
-                <li className="list-group-item" key={post.id} >
-                    {post.litle}
-                </li>
+                <li className = "list-group-item" key={post.id}>{post.title}</li>
             );
         });
 
@@ -36,8 +35,8 @@ class PostsIndex extends Component {
     }
 }
 
-function mapSrateToProps(state) {
+function mapStateToProps(state) {
     return { posts: state.posts };
 }
 
-export default connect(mapSrateToProps, { fetchPosts })(PostsIndex);
+export default connect(mapStateToProps, { fetchPosts })(PostsIndex);
